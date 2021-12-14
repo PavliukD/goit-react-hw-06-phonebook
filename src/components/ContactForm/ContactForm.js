@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { connect } from "react-redux";
-import {addContact} from '../../redux/phonebook/phonebook-actions'
+import { useDispatch } from "react-redux";
+import actions from '../../redux/phonebook/phonebook-actions'
 import s from './ContactForm.module.css'
 
 
-function ContactForm({onSubmit}){
+export default function ContactForm(){
   const [name, setName] = useState('')
   const [number, setNumber] = useState('')
+  const dispatch = useDispatch()
 
   const inputChange = (event) => {
       switch(event.target.name){
@@ -24,10 +25,10 @@ function ContactForm({onSubmit}){
     
      const formSubmit = (event) => {
         event.preventDefault()
-        onSubmit({
+        dispatch(actions.addContact({
           name,
           number,
-        })
+        }))
         setName('')
         setNumber('')
       }
@@ -62,9 +63,3 @@ function ContactForm({onSubmit}){
         </form> 
         )
 }
-
-const mapDispatchToProps = dispatch => ({
-  onSubmit: contact => dispatch(addContact(contact))
-})
-
-export default connect(null, mapDispatchToProps)(ContactForm)

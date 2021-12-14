@@ -1,4 +1,5 @@
-import { combineReducers } from '@reduxjs/toolkit'
+import { combineReducers, createReducer } from '@reduxjs/toolkit'
+import actions from './phonebook-actions'
 
 const initialState = [
       {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
@@ -7,33 +8,22 @@ const initialState = [
       {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
     ]
 
-function itemsReducer(state = initialState, action){
-    switch (action.type){
-        case 'phonebook/addContact':
-            if (state.some(contact => {
-                return contact.name.toLowerCase() === action.payload.name.toLowerCase()
-                })){
-                    alert(`${action.payload.name} is already in cotacts`)
-                    return state
-                }
-            return [...state, action.payload];
-        case 'phonebook/delContact':
-            return state.filter(contact => contact.id !== action.payload.id);
-        default:
-            return state
-    }
-}
+const itemsReducer = createReducer(initialState, {
+    [actions.addContact]: (state, action) => {
+        if (state.some(contact => {
+            return contact.name.toLowerCase() === action.payload.name.toLowerCase()
+            })){
+                alert(`${action.payload.name} is already in cotacts`)
+                return state
+            }
+        return [...state, action.payload]
+    },
+    [actions.delContact]: (state, action) => state.filter(contact => contact.id !== action.payload),
+})
 
-function filterReduser(state ='', action){
-    
-    switch (action.type){
-        case 'phonebook/filterContacts':
-            return action.payload.text;
-        default:
-            return state;
-
-    }
-}
+const filterReduser = createReducer('', {
+    [actions.filterContacts]: (state, action) => action.payload,
+})
 
 const rootReduser = combineReducers({
     items: itemsReducer,

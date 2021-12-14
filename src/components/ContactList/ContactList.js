@@ -1,34 +1,26 @@
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import s from './ContactList.module.css'
-import { delContact } from '../../redux/phonebook/phonebook-actions'
+import actions from '../../redux/phonebook/phonebook-actions'
+import {getContacts} from '../../redux/phonebook/phonebook-selectors'
 
-function ContactList({contacts, delContact}){
+export default function ContactList(){
+    const contacts = useSelector(getContacts)
+    const dispatch = useDispatch()
+ 
     return(
         <ul className = {s.list}>
             {contacts.map(contact => {
                 return(
                     <li key = {contact.id} id = {contact.id} className = {s.item}>
                         <p>{contact.name}: {contact.number}</p>
-                        <button onClick={() => delContact(contact.id)} className = {s.button}>Delete</button>
+                        <button onClick={() => dispatch(actions.delContact(contact.id))} className = {s.button}>Delete</button>
                     </li>
                 )
             })}
         </ul>
     )
 }
-
-const mapStateToProps = state => ({
-    contacts: state.items.filter(contact => contact.name.toLowerCase().includes(state.filter.toLowerCase()))
-})
-
-const mapDispatchToProps = dispatch => ({
-    delContact: id => dispatch(delContact(id))
-})
-
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactList)
 
 ContactList.propTypes = {
     contacts: PropTypes.array,

@@ -1,4 +1,5 @@
-import { createStore } from "@reduxjs/toolkit"
+// import { createStore } from "@reduxjs/toolkit"
+import { configureStore } from "@reduxjs/toolkit"
 import rootReduser from "./phonebook/phonebook-reducers"
 
 // const state = {
@@ -6,6 +7,8 @@ import rootReduser from "./phonebook/phonebook-reducers"
 //     filter: ''
 // }
 
-const store = createStore(rootReduser)
+const store = configureStore({
+    reducer: rootReduser,
+})
 
 export default store

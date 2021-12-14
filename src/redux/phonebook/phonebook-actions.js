@@ -1,26 +1,18 @@
+import { createAction } from '@reduxjs/toolkit'
 import { nanoid } from 'nanoid'
 
-const addContact = contact => ({
-    type: 'phonebook/addContact',
-    payload: {
-        id: nanoid(),
-        name: contact.name,
-        number: contact.number
+const addContact = createAction('phonebook/addContact', (contact) => {
+    return {
+        payload:{
+            id: nanoid(),
+            name: contact.name,
+            number: contact.number
+        }
     }
 })
+const delContact = createAction('phonebook/delContact')
+const filterContacts = createAction('phonebook/filterContacts')
 
-const delContact = id => ({
-    type: 'phonebook/delContact',
-    payload: {
-        id
-    }
-})
 
-const filterContacts = text => ({
-    type: 'phonebook/filterContacts',
-    payload: {
-        text
-    }
-})
-
-export  {addContact, delContact, filterContacts}
+const actions = {addContact, delContact, filterContacts}
+export default actions
