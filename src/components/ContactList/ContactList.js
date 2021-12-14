@@ -19,7 +19,7 @@ function ContactList({contacts, delContact}){
 }
 
 const mapStateToProps = state => ({
-    contacts: state.items,
+    contacts: state.items.filter(contact => contact.name.toLowerCase().includes(state.filter.toLowerCase()))
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -1,5 +1,4 @@
 import { combineReducers } from '@reduxjs/toolkit'
-import actions from './phonebook-actions'
 
 const initialState = [
       {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
@@ -11,6 +10,12 @@ const initialState = [
 function itemsReducer(state = initialState, action){
     switch (action.type){
         case 'phonebook/addContact':
+            if (state.some(contact => {
+                return contact.name.toLowerCase() === action.payload.name.toLowerCase()
+                })){
+                    alert(`${action.payload.name} is already in cotacts`)
+                    return state
+                }
             return [...state, action.payload];
         case 'phonebook/delContact':
             return state.filter(contact => contact.id !== action.payload.id);
@@ -20,9 +25,10 @@ function itemsReducer(state = initialState, action){
 }
 
 function filterReduser(state ='', action){
+    
     switch (action.type){
         case 'phonebook/filterContacts':
-            return state.filter(contact => contact.name.toLowerCase().includes(action.payload));
+            return action.payload.text;
         default:
             return state;
 
