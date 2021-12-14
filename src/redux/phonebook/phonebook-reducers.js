@@ -1,4 +1,4 @@
-import { combineReducers, createReducer } from '@reduxjs/toolkit'
+import { createReducer } from '@reduxjs/toolkit'
 import actions from './phonebook-actions'
 
 const initialState = [
@@ -21,14 +21,16 @@ const itemsReducer = createReducer(initialState, {
     [actions.delContact]: (state, action) => state.filter(contact => contact.id !== action.payload),
 })
 
-const filterReduser = createReducer('', {
+const filterReducer = createReducer('', {
     [actions.filterContacts]: (state, action) => action.payload,
 })
 
-const rootReduser = combineReducers({
-    items: itemsReducer,
-    filter: filterReduser,
-})
+
+export {itemsReducer, filterReducer}
+// const rootReduser = combineReducers({
+//     items: itemsReducer,
+//     filter: filterReduser,
+// })
 
 
-export default rootReduser
+// export default rootReduser

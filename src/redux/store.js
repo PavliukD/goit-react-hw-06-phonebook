@@ -1,14 +1,29 @@
-// import { createStore } from "@reduxjs/toolkit"
-import { configureStore } from "@reduxjs/toolkit"
-import rootReduser from "./phonebook/phonebook-reducers"
+import { combineReducers, configureStore } from "@reduxjs/toolkit"
+import {
+  persistStore,
+  persistReducer,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import {itemsReducer, filterReducer} from "./phonebook/phonebook-reducers"
 
-// const state = {
-//     items: [],
-//     filter: ''
-// }
 
-const store = configureStore({
-    reducer: rootReduser,
+
+const phonebookPersistConfig = {
+    key: 'phonebook',
+    storage,
+}
+
+const rootReducer = combineReducers({
+    items: itemsReducer,
+    filter: filterReducer,
 })
 
-export default store
+const persReducer = persistReducer(phonebookPersistConfig, rootReducer)
+
+const store = configureStore({
+    reducer: persReducer,
+})
+
+const persistor = persistStore(store)
+
+export {store, persistor}
