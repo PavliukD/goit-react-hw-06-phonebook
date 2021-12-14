@@ -1,4 +1,11 @@
-import {createStore} from 'redux'
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { createStore } from "@reduxjs/toolkit"
+import rootReduser from "./phonebook/phonebook-reducers"
 
+const state = {
+    items: [],
+    filter: ''
+}
 
+const store = createStore(rootReduser)
+
+export default store
