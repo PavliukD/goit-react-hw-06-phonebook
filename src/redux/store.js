@@ -11,6 +11,7 @@ import {itemsReducer, filterReducer} from "./phonebook/phonebook-reducers"
 const phonebookPersistConfig = {
     key: 'phonebook',
     storage,
+    blacklist: ['filter'],
 }
 
 const rootReducer = combineReducers({
